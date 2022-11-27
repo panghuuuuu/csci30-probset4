@@ -5,6 +5,7 @@ def arrange_wings(wings, obs):
     wingsDegree = {}
     wingsObs = dict(obs)
     wingsObs = {n:[v for u,v in obs if u == n] for n in wings}
+    print(wingsObs)
     wingsDegree = {i:0 for i in wings}
     
     for i in wingsObs:

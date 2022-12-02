@@ -2,28 +2,31 @@
 
 def arrange_wings(wings, obs):
     wingsLen = len(wings)
-    wingsDegree = {}
-    wingsDegree = {i:0 for i in wings}
-    wingsObs = {n: [] for n in wings}
-    for n in wings:
-        arr = wingsObs[n]
-        for u,v in obs: 
-            if u == n:
-                arr.append(v)
-                wingsDegree[v] += 1
-
-    sorted = [i for i in wingsObs if wingsDegree[i] == 0]
+    wingsObs = {n:[v for u,v in obs if u == n] for n in wings}
     final = []
-    print(wingsObs)
-    while sorted:
-        lastWing = sorted.pop()
-        final.append(lastWing)
-        for i in wingsObs[lastWing]:
-            wingsDegree[i] -= 1
-            if wingsDegree[i] == 0:
-                sorted.append(i)
-
-    if ((len(final) == wingsLen)): return final
+    stack = []
+    cycle = False
+    visited = {i: 0 for i in wings}  
+    startIndex = wings[0]
+    stack.append(startIndex)
+    while (stack and (not cycle)):
+        node = stack[-1]
+        if visited[node] != 1:
+            visited[node] = 1
+            for adj in wingsObs[node]:
+                if visited[adj] == 1: 
+                    cycle = True
+                    break
+                elif visited[adj] == 0: 
+                    stack.append(adj)
+                    visited[adj] = 2
+        else:
+            final.append(node)
+            visited[node] = 2
+            stack.pop()
+    for i in visited:
+        if visited[i] == 0: final.append(i)   
+    if ((len(final) == wingsLen)): return final[::-1]
     else: return None
 
 

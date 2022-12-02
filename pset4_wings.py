@@ -3,16 +3,18 @@
 def arrange_wings(wings, obs):
     wingsLen = len(wings)
     wingsDegree = {}
-    wingsObs = dict(obs)
-    wingsObs = {n:[v for u,v in obs if u == n] for n in wings}
     wingsDegree = {i:0 for i in wings}
-    
-    for i in wingsObs:
-        for j in wingsObs[i]:
-            wingsDegree[j] += 1
+    wingsObs = {n: [] for n in wings}
+    for n in wings:
+        arr = wingsObs[n]
+        for u,v in obs: 
+            if u == n:
+                arr.append(v)
+                wingsDegree[v] += 1
+
     sorted = [i for i in wingsObs if wingsDegree[i] == 0]
-    
     final = []
+    print(wingsObs)
     while sorted:
         lastWing = sorted.pop()
         final.append(lastWing)

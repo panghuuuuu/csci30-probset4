@@ -9,30 +9,27 @@ def arrange_wings(wings, obs):
             graph[i] = []
     
     visited = {v:0 for v in graph}
-    result = []
+    sorted = []
     cycle = [False]
     for v in graph:
         if visited[v] == 0:
-            dfs(graph,v,visited,result,cycle)
+            dfs(graph,v,visited,sorted,cycle)
     
     if (cycle[0]):
         return None
     else:        
-       return (result[::-1])
+       return (sorted[::-1])
 
-def dfs(graph,current,visited,result,cycle):
+def dfs(graph,current,visited,sorted,cycle):
     visited[current] = 1
-    for v in graph[current]:
-        if (visited[v] == 2):
-            continue
-        elif (visited[v] == 1):
-            #print("CYCLE!")
-            cycle[0] = True
-            return
-        else:
-            dfs(graph,v,visited,result,cycle)
+    for v in graph[current]: 
+        state = visited[v]
+        if state != 1:
+            if state == 0:
+                dfs(graph,v,visited,sorted,cycle)
+        else: cycle[0] = True
     visited[current] = 2
-    result.append(current)
+    sorted.append(current)
 
 ### DON'T touch anything below this line
 #   this already takes care of the input and output
